@@ -115,7 +115,9 @@ if (!isset($_SESSION['user_id'])) {
 $dists = ["Ariyalur","Chengalpattu","Chennai","Coimbatore","Cuddalore","Dharmapuri","Dindigul","Erode","Kallakurichi","Kanchipuram","Kanyakumari","Karur","Krishnagiri","Madurai","Mayiladuthurai","Nagapattinam","Namakkal","Nilgiris","Perambalur","Pudukkottai","Ramanathapuram","Ranipet","Salem","Sivaganga","Tenkasi","Thanjavur","Theni","Thoothukudi","Tiruchirappalli","Tirunelveli","Tirupathur","Tiruppur","Tiruvallur","Tiruvannamalai","Tiruvarur","Vellore","Viluppuram","Virudhunagar"];
 ?>
 <!DOCTYPE html>
-<html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Sri Ramar Travels</title><script src="https://cdn.tailwindcss.com"></script><style>@media print { nav, #sidebar, #sidebarOverlay, header,.no-print { display:none!important; } }</style></head><body class="bg-gray-100">
+<html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Sri Ramar Travels</title><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script src="https://cdn.tailwindcss.com"></script><style>@media print { nav, #sidebar, #sidebarOverlay, header,.no-print { display:none!important; } } 
+   </style></head><body class="bg-gray-100">
 
 <?php if (isset($_SESSION['user_id'])):?>
 <header class="bg-gray-900 text-white p-3 flex justify-between items-center sticky top-0 z-50">
