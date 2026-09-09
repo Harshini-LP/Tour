@@ -10,7 +10,7 @@ try { $pdo->exec("ALTER TABLE bookings ADD COLUMN user_id INT DEFAULT 1"); } cat
 // Fix old 'member' role to 'customer'
 $pdo->exec("UPDATE users SET role='customer' WHERE role='member'");
 
-$pdo->exec("INSERT IGNORE INTO users (id, username, password, role) VALUES (1, 'admin', '". password_hash('admin123', PASSWORD_DEFAULT). "', 'admin')");
+$pdo->exec("INSERT OR IGNORE INTO users (id, username, password, role) VALUES (1, 'admin', '". password_hash('admin123', PASSWORD_DEFAULT). "', 'admin')");
 
 // --- REGISTER ---
 if (isset($_POST['register'])) {
