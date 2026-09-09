@@ -1,6 +1,9 @@
 <?php
 // Auto detect da - Hosting na InfinityFree, Laptop na localhost
-if (strpos($_SERVER['HTTP_HOST'], 'infinityfree')!== false || strpos($_SERVER['HTTP_HOST'], 'great-site.net')!== false || strpos($_SERVER['HTTP_HOST'], 'free.nf')!== false) {
+$currentHost = $_SERVER['HTTP_HOST'] ?? '';
+
+if (strpos($currentHost, 'infinityfree')!== false || strpos($currentHost, 'great-site.net')!== false || strpos($currentHost, 'free.nf')!== false || strpos($currentHost, 'onrender.com')!== false) {
+  
     $host = "sql103.infinityfree.com";
     $user = "if0_42864780";
     $pass = "sriramar03";
