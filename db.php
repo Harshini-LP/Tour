@@ -1,23 +1,24 @@
 <?php
-// Auto detect da - Hosting na InfinityFree, Laptop na localhost
 $currentHost = $_SERVER['HTTP_HOST'] ?? '';
 
-if (strpos($currentHost, 'infinityfree')!== false || strpos($currentHost, 'great-site.net')!== false || strpos($currentHost, 'free.nf')!== false || strpos($currentHost, 'onrender.com')!== false) {
-  
+if (strpos($currentHost, 'onrender.com') !== false) {
+    // RENDER KU - SQLite use pannrom (InfinityFree block panniduchu)
+    $dbFile = __DIR__ . '/tourtravels.db';
+    $pdo = new PDO("sqlite:$dbFile");
+} elseif (strpos($currentHost, 'infinityfree')!== false || strpos($currentHost, 'great-site.net')!== false || strpos($currentHost, 'free.nf')!== false) {
     $host = "sql103.infinityfree.com";
     $user = "if0_42864780";
     $pass = "sriramar03";
     $dbname = "if0_42864780_tour";
     $pdo = new PDO("mysql:host=$host;dbname=$dbname", $user, $pass);
 } else {
-    // Laptop / ngrok ku - old file maathiri
     $tmp = new PDO("mysql:host=localhost", "root", "");
     $tmp->exec("CREATE DATABASE IF NOT EXISTS tour_db");
     $tmp->exec("CREATE DATABASE IF NOT EXISTS if0_42864780_tour");
     $host = "localhost";
     $user = "root";
     $pass = "";
-    $dbname = "if0_42864780_tour"; // ippo itha than use panrom
+    $dbname = "if0_42864780_tour";
     $pdo = new PDO("mysql:host=$host;dbname=$dbname", $user, $pass);
 }
 
@@ -25,7 +26,7 @@ $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
 // ===== BOOKINGS TABLE =====
 $pdo->exec("CREATE TABLE IF NOT EXISTS bookings (
- id INT AUTO_INCREMENT PRIMARY KEY,
+ id INTEGER PRIMARY KEY AUTOINCREMENT,
  car_number VARCHAR(50), car_name VARCHAR(50),
  driver_name VARCHAR(100), customer_name VARCHAR(100),
  customer_phone VARCHAR(20),
@@ -42,22 +43,12 @@ $pdo->exec("CREATE TABLE IF NOT EXISTS bookings (
 
 // ===== USERS TABLE =====
 $pdo->exec("CREATE TABLE IF NOT EXISTS users (
- id INT AUTO_INCREMENT PRIMARY KEY,
+ id INTEGER PRIMARY KEY AUTOINCREMENT,
  username VARCHAR(100) UNIQUE,
  password VARCHAR(255),
  role VARCHAR(20) DEFAULT 'customer',
  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 )");
 
-$pdo->exec("INSERT IGNORE INTO users (username,password,role) VALUES ('admin','".password_hash('admin123',PASSWORD_DEFAULT)."','admin')");
-
-// Old columns safe-a add pannum code apdiye irukattum
-$addCols = ["user_id INT DEFAULT 0","customer_phone VARCHAR(20)","diesel INT DEFAULT 0","toll INT DEFAULT 0","driver_bata INT DEFAULT 0","start_km INT DEFAULT 0","close_km INT DEFAULT 0","total_km INT DEFAULT 0","car_type VARCHAR(20)","trip_type VARCHAR(20)","advance INT DEFAULT 0","balance INT DEFAULT 0"];
-foreach($addCols as $col){
- try{
-   $colName = explode(" ", trim($col))[0];
-   $check = $pdo->query("SHOW COLUMNS FROM bookings LIKE '$colName'")->fetch();
-   if(!$check){ $pdo->exec("ALTER TABLE bookings ADD COLUMN $col"); }
- } catch(Exception $e){}
-}
+$pdo->exec("INSERT OR IGNORE INTO users (id, username,password,role) VALUES (1, 'admin','".password_hash('admin123',PASSWORD_DEFAULT)."','admin')");
 ?>
